@@ -5,7 +5,404 @@
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
     <link>http://localhost:4000/</link>
     <description>A website with blog posts and pages</description>
-    <pubDate>Sun, 03 Sep 2017 01:31:15 +0800</pubDate>
+    <pubDate>Sun, 03 Sep 2017 01:47:24 +0800</pubDate>
+    
+      <item>
+        <title>洋葱借条ios客户端技术文档</title>
+        <link>http://localhost:4000/2017/09/03/%E6%B4%8B%E8%91%B1%E5%80%9F%E6%9D%A1iOS%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/09/03/%E6%B4%8B%E8%91%B1%E5%80%9F%E6%9D%A1iOS%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3.html</guid>
+        <description>&lt;h2 id=&quot;洋葱借条ios客户端技术文档说明&quot;&gt;洋葱借条iOS客户端技术文档说明&lt;/h2&gt;
+
+&lt;h3 id=&quot;一前言&quot;&gt;一、前言&lt;/h3&gt;
+&lt;p&gt;####1.1、编写目的&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;目的在于明确说明洋葱借条功能的实现方式，规范化软件的生产，给软件的设计，编码，测试，维护等提供依据，指导开发人员进行编码。 &lt;/li&gt;
+  &lt;li&gt;本文档预期读者为：软件设计人员、开发人员、测试人员等人。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;####1.2、项目背景&lt;/p&gt;
+
+&lt;p&gt;​	洋葱借条旨在整合线下混乱的私贷市场，将线下借款交易转移到线上，为出借人和借款人提供一个信用借款平台。
+####1.3、术语说明
+​	民间借贷 - 民间借贷，是指自然人、法人、其他组织之间及其相互之间，而非经金融监管部门批准设立的从事贷款业务的金融机构及其分支机构进行资金融通的行为。&lt;/p&gt;
+
+&lt;p&gt;####1.4、代码规范&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;声明类或方法时，注意空格的使用，参数过多时可换行保持对齐，方法调用时也保存以冒号对齐。&lt;/li&gt;
+  &lt;li&gt;类名首字母大写，方法首字母小写，方法中的参数首字母小写，命名见名知意，取值方法前不要加get。&lt;/li&gt;
+  &lt;li&gt;注释很重要，但除了开头的版权声明，尽可能把代码写的如同文档一样，让别人直接看代码就知道意思，写代码时别担心名字太长，相信XCode的提示功能。&lt;/li&gt;
+  &lt;li&gt;尽可能保证 .h文件的简洁性，可以不公开的API就不要公开了，写在.m文件中即可，此外import外部文件也尽量放在.m文件中。&lt;/li&gt;
+  &lt;li&gt;写delegate的时候类型应该为weak弱引用，以避免循环引用，当delegate对象不存在后，写的delegate也就没有存在意义了自然是需要销毁的。&lt;/li&gt;
+  &lt;li&gt;使用“#pragma mark”标记方法组，方便阅读代码。&lt;/li&gt;
+  &lt;li&gt;严格按照MVC模式，控制器中尽量只做事件调度相关的工作，视图只负责展示，不处理事件，数据模型只负责解析，存储数据。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;具体可参考&lt;a href=&quot;https://cf-admin-nb.fqgj.net/pages/viewpage.action?pageId=16580762&quot;&gt;[云兔科技iOS代码规范V1.0]&lt;/a&gt; &lt;/p&gt;
+
+&lt;p&gt;###二、项目概述&lt;/p&gt;
+&lt;h4 id=&quot;21app描述&quot;&gt;2.1、App描述&lt;/h4&gt;
+
+&lt;p&gt;​	洋葱借条做为一个金融类APP，项目整体采用MVC的设计模式，文件结构清晰，逻辑控制层和数据模型层分离，使得代码逻辑清晰，注释规范。通过Base类的封装，组件化，工具类和公共方法的抽象，公共视图类的封装，系统类扩展等手段，增加重复代码的有效利用和简化代码调用方式以及简明的文件目录结构。&lt;/p&gt;
+
+&lt;h4 id=&quot;22工程目录简介&quot;&gt;2.2、工程目录简介&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&quot;/Users/zhongjunchi/Desktop/洋葱借条iOS-技术文档/目录结构.png&quot; alt=&quot;目录结构&quot; /&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;AppDelegate :  只有AppDelegate类，程序生命周期管理类&lt;/li&gt;
+  &lt;li&gt;General : 通用组件及分类放置，不涉及具体业务&lt;/li&gt;
+  &lt;li&gt;Business : 具体业务层，包括网络请求、数据模型和业务Manager类&lt;/li&gt;
+  &lt;li&gt;Route : 具体路由实现，集中管理&lt;/li&gt;
+  &lt;li&gt;Theme : 展示层，包括VC和View&lt;/li&gt;
+  &lt;li&gt;Tools : 涉及业务层的模块封装，包括弹窗及第三方SDK封装类&lt;/li&gt;
+  &lt;li&gt;3rdLibs : 第三方库&lt;/li&gt;
+  &lt;li&gt;Macros : 预编译文件和常用宏定义文件&lt;/li&gt;
+  &lt;li&gt;Resources :  资源类文件，包括图片和info.plist等&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;23通用组件&quot;&gt;2.3、通用组件&lt;/h4&gt;
+&lt;p&gt;##### 2.3.1、网络框架&lt;/p&gt;
+
+&lt;p&gt;​	洋葱借条使用的网络框架是一种离散型的架构方式，具体接口实现类继承&lt;strong&gt;YQAPIBaseManager&lt;/strong&gt;，实现类只需关心接口名、请求方式、数据校验及返回数据的处理。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;/*** 接口名 ***/
+- (NSString *)methodName
+{
+    return @&quot;amount&quot;;
+}
+
+- (NSString *)serviceType
+{
+    return kYQBaseService;
+}
+
+/*** 请求方式 ***/
+- (YQAPIManagerRequestType)requestType
+{
+    return YQAPIManagerRequestTypePost; //POST
+}
+
+/*** 数据处理，这样上层代码只需关心自己需要的数据 ***/
+- (id)manager:(YQAPIBaseManager *)manager reformData:(NSDictionary *)data
+{
+    if ([manager isKindOfClass:[self class]])
+    {
+        NSDictionary *dataDic = [data objectForKey:@&quot;data&quot;];
+        return dataDic;
+    }
+    return nil;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;​	而接口返回和入参的处理均以Delegate的形式在调用类里回调，业务层结构松散，而调用层又能集中管理，耦合度低，使用方便，代码可读性高。（实现细节和原理可查看YQAPIBaseManager核心代码。）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;#pragma mark - YQAPIManagerCallBackDelegate
+/*** 接口请求成功回调 ***/
+- (void)managerCallAPIDidSuccess:(YQAPIBaseManager *)manager
+{
+    if (manager == customManager)
+    {
+      // 逻辑处理
+    }
+}
+
+/*** 接口请求失败回调 ***/
+- (void)managerCallAPIDidFailed:(YQAPIBaseManager *)manager
+{
+    if (manager == customManager)
+    {
+      // 逻辑处理
+    }
+}
+
+#pragma mark - YQAPIManagerParamSource
+/*** 让manager能够获取调用API所需要的数据 ***/
+- (NSDictionary *)paramsForApi:(YQAPIBaseManager *)manager
+{
+    if (manager == customManager)
+    {
+        // 返回入参
+    }
+    return [NSDictionary dictionary];
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&quot;232mediator组件化方案&quot;&gt;2.3.2、Mediator组件化方案&lt;/h5&gt;
+
+&lt;p&gt;业界对组件化的讨论至今，不外乎两个方案：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;URL/protocol注册调度&lt;/li&gt;
+  &lt;li&gt;runtime调度。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Mediator方案即为采用后者实现，基于oc中Target-Action的通信模式，反射调用相应Action，解除组件间的依赖。&lt;/p&gt;
+
+&lt;p&gt;具体参考&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://casatwy.com/iOS-Modulization.html&quot;&gt;iOS应用架构谈 组件化方案&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://casatwy.com/modulization_in_action.html&quot;&gt;在现有工程中实施基于CTMediator的组件化方案&lt;/a&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;231form表单&quot;&gt;2.3.1、Form表单&lt;/h5&gt;
+
+&lt;p&gt;​	抛开业务谈其他都是扯淡，所以我们先假设有如下需求：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/Users/zhongjunchi/Desktop/洋葱借条iOS-技术文档/Form表单示例.png&quot; alt=&quot;Form表单示例&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;​	页面并不复杂，实现起来却很糟心，各种判断还是各种cell？如果需求变了，样式也跟着变了呢？&lt;/p&gt;
+
+&lt;p&gt;​	针对接口编程，而不是针对实现编程，按照这个原则及该应用场景，提出一种解决方案 - Form表单。&lt;/p&gt;
+
+&lt;p&gt;​	&lt;strong&gt;JKZKTableContainerCellProtocol&lt;/strong&gt;定义了cell与上层之间通信需要实现的协议：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;/**
+ 配置Cell内容并刷新
+ @param params 可以是字典或VO 数据
+ */
+- (void)configCell:(id)params;
+
+/**
+ 返回页面所需更新的数据
+ */
+- (id)fetchData;
+
+/**
+ 根据配置参数返回Cell的动态高
+ @param params 可以是字典或VO 数据 maxWidth Cell最大宽, subtitleLabel的高为基准.titleLabel和subtitleLabel需要有内容
+ @return 返回Cell高
+ */
++ (CGFloat)fetchCellHeight:(id)params;
+
+/**
+ 根据Cell的配置数据,返回页面需要的使用数据
+ @param params Cell的配置数据
+ @return 返回页面需要的数据
+ */
++ (id)fetchDataWithCellParams:(id)params;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Controller层只需负责数据的获取与刷新，页面渲染交由&lt;strong&gt;TableContainerView&lt;/strong&gt;完成。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/Users/zhongjunchi/Desktop/洋葱借条iOS-技术文档/form表单png.png&quot; alt=&quot;form表单png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;这样，最上层(Controller)的业务代码非常清爽，灵活性极高，当页面改变时，只需要修改变化cell或者新增一种Type的cell，提升了开发效率，而不用为写一坨if/else代码而苦恼，具体实现细节可查看源码。&lt;/p&gt;
+
+&lt;p&gt;####2.4、第三方工具使用说明&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;三方SDK
+  ◦	UMengUShare   友盟第三方分享；
+  ◦	GTSDK   个推推送；
+  ◦	UMengAnalytics-NO-IDFA   友盟crash统计；
+  ◦	AliyunOSSiOS   阿里云OSS，文件存储；
+  ◦	LLPaySDK   连连支付；
+  ◦	BaiduMapKit   百度地图；
+  ◦	SensorsAnalyticsSDK   神策事件统计。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;三方框架
+  ◦	AFNetworking   网络请求库；
+  ◦	Masonry    AutoLayout库；
+  ◦	SDWebImage   图片下载缓存使用；
+  ◦	MMDrawerController    抽屉；
+  ◦	MBProgressHUD   Hud；
+  ◦	MJExtension   JSON解析；
+  ◦	MJRefresh   刷新库；
+  ◦	INTULocationManager   定位处理；
+  ◦	RHAddressBook   通讯录处理；
+  ◦	IQKeyboardManager   键盘管理；
+  ◦	YYText   ；
+  ◦	Reachability 网络监测使用；
+  ◦	YTPod  云兔公司私有库 。
+####2.5、App启动流程
+&lt;img src=&quot;/Users/zhongjunchi/Desktop/洋葱借条iOS-技术文档/启动流程.jpg&quot; alt=&quot;启动流程&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;洋葱借条启动执行事件：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;请求AppCode(config/appcode/get)接口，返回BaseUrl及是否强制更新；&lt;/li&gt;
+  &lt;li&gt;初始化第三方SDK(友盟统计，友盟分享，神策，百度地图，个推)；
+    * 获取device token, 向个推服务器注册device token, &lt;u&gt;[[GeTuiSdk registerDeviceToken:deviceToken]]&lt;/u&gt;;
+    * 如果需要强制更新，则弹框提示，否则创建根视图控制器，进入首页;
+    * 请求位置权限，上传用户GPS信息；
+    * 请求首页接口，刷新页面。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;###三、功能详解
+&lt;img src=&quot;/Users/zhongjunchi/Desktop/洋葱借条iOS-技术文档/洋葱借条xmindpng.png&quot; alt=&quot;洋葱借条xmindpng&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;​	该思维导图对整个项目做了一个功能点解剖，清晰明了，逻辑流程比较复杂的会有流程图加强理解。&lt;/p&gt;
+
+&lt;p&gt;####3.1、登录/注册（Login）
+​	洋葱借条只支持用户手机号登录注册，相对逻辑简单，需要注意的是，当调用登录(user/login)接口返回50017错误码时，需跳转绑定设备页面进行设备绑定。设备绑定判断依据guestId字段，该字段会在AppCode接口返回，保存本地，作为基础参数，即可判断设备是否绑定过。
+####3.2、借款（Borrow）
+​	借款流程在v1.2.0版本中做出调整，现在整体逻辑为可无对象发布借款，可分享给洋葱借条/第三方好友（出借人），具体流程图如下：&lt;/p&gt;
+
+&lt;p&gt;​	&lt;img src=&quot;/Users/zhongjunchi/Desktop/洋葱借条iOS-技术文档/借款流程图.png&quot; alt=&quot;借款流程图&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;​	无对象发布的借款订单，须在支付时进行订单锁定（服务端两分钟锁定逻辑），客户端须有解锁订单逻辑，解锁时间节点：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;取消支付；&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;连连支付不成功。&lt;/p&gt;
+
+    &lt;p&gt;​此外，连连支付弹窗出来后，会开启一个115s的定时器，将支付弹窗removeFromSuperview，防止用户支付超时仍停留在该弹窗页面。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;​&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;- (void)removeLLToastView
+{
+    [self listSubviewsOfView:[UIApplicationsharedApplication].keyWindow];
+}
+
+- (void)listSubviewsOfView:(UIView *)view
+{
+    NSArray *subviews = [view subviews];
+    if ([subviews count] == 0) return;
+    
+    for (UIView *subview in subviews)
+    {
+        Class llToastClass =  NSClassFromString(@&quot;LLToastView&quot;);
+        if ([subview isKindOfClass:llToastClass])
+        {
+            [subview removeFromSuperview];
+            [self textStateHUD:@&quot;支付超时，请重新支付&quot;];
+            return;
+        }
+
+        [self listSubviewsOfView:subview];
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;​&lt;/p&gt;
+
+&lt;p&gt;####3.3、认证（Verify）&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;实名认证
+ 绑定银行卡。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;个人信息认证
+ 用户信息输入。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;运营商认证
+ 运营商认证是一个爬虫处理的过程，在此期间会不断轮询后台处理结果，会有需要输入验证码的情况，耗时较长，流程图如下：&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/Users/zhongjunchi/Desktop/洋葱借条iOS-技术文档/运营商认证png.png&quot; alt=&quot;运营商认证png&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;芝麻认证
+ 请求user/profile/zm/post接口，返回芝麻验证的URL，认证后，JS调用原生pop方法，&lt;/p&gt;
+
+    &lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt; - (void)setupBridge
+ {
+     _webViewBridge = [WebViewJavascriptBridge bridgeForWebView:self.webView];
+       
+     @weakify(self)
+     [_webViewBridge registerHandler:@&quot;getInitDataAction&quot; handler:^(id data, WVJBResponseCallback responseCallback) {
+           
+         @strongify(self)
+         responseCallback(@&quot;closeZmxyAction&quot;);
+         [self performSelector:@selector(popSelf) withObject:nil afterDelay:3.f];
+     }];
+ }
+
+&lt;/code&gt;&lt;/pre&gt;
+
+    &lt;p&gt;​&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;电商认证
+ 淘宝认证 - 淘宝H5&lt;/p&gt;
+
+    &lt;p&gt;京东认证
+####3.4、信用报告（Report）
+报告模块以展示为主，页面也相对较复杂，目前在个人信息和运营商报告中，需求变化快，将模块以组件的形式拆分，再依据返回数据以组合的形式进行拼装，灵活性更高。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;个人信息报告&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;GPS地图 - 此时实现采用百度地图聚合算法，需要注意的是，当地图zoomLevel为最大(21)时，可能存在部分点仍处于聚合状态的情况，所以在zoomLevel为最大时需做特殊处理。&lt;/p&gt;
+
+        &lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;__block NSArray *array = [_clusterManager getClusters:_clusterZoom];
+if (self.mapView.zoomLevel == 21)
+{
+    NSMutableArray *tempArray = [NSMutableArray array];
+
+    for (BMKCluster *perCluster in array)
+    {
+        for (BMKClusterItem *item in perCluster.clusterItems)
+        {
+            BMKCluster *cluster  = [[BMKCluster alloc] init];
+            cluster.coordinate   = item.coor;
+            cluster.gpsModel     = item.gpsModel;
+            cluster.clusterItems = [NSMutableArray arrayWithObject:item];
+            [tempArray addObject:cluster];
+        }
+    }
+
+    array = [NSArray arrayWithArray:tempArray];
+}
+&lt;/code&gt;&lt;/pre&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;通讯录 -  此处显示的数据，均为用户发布借款时上传通讯录的内容&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;电商历史记录&lt;/p&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;运营商报告&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;芝麻报告&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;网贷黑名单
+####3.5、支付（Card/Pay）
+洋葱借条涉及支付的特性：&lt;/li&gt;
+  &lt;li&gt;借款给TA&lt;/li&gt;
+  &lt;li&gt;提前还款&lt;/li&gt;
+  &lt;li&gt;发布借款时更新/生成报告&lt;/li&gt;
+  &lt;li&gt;购买报告&lt;/li&gt;
+  &lt;li&gt;转账&lt;/li&gt;
+  &lt;li&gt;充值&lt;/li&gt;
+  &lt;li&gt;提现&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;支付目前接入的是第三方连连支付SDK，版本号为3.0，提供两套API:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;支付申请 - 银行卡支付时调用&lt;/li&gt;
+  &lt;li&gt;签约申请 - 绑卡时填写四要素(姓名、身份证号、银行卡号、手机号)后调用&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;####3.6、余额（Balance）
+所有支付行为(包括银行卡支付)最后实际均为操作用户余额行为。
+####3.7、转账（Transfer）
+方便洋葱借条用户之间的资金流转。
+####3.8、个人中心（Personal）&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;购买报告&lt;/li&gt;
+  &lt;li&gt;更换手机号 - 暂时屏蔽&lt;/li&gt;
+  &lt;li&gt;退出登录
+###四、其他&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;​	待补充&lt;/p&gt;
+</description>
+        <pubDate>Sun, 03 Sep 2017 00:00:00 +0800</pubDate>
+      </item>
     
       <item>
         <title>Sample post</title>
