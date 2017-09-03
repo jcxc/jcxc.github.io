@@ -1,10 +1,140 @@
-<p>layout: post
-title: 洋葱借条iOS客户端技术文档说明
-date: 2017-09-03 11:11:11.000000000 +09:00</p>
+<!DOCTYPE html>
+<html class="no-js">
+  <head>
+	<meta charset="utf-8">
+	<title>洋葱借条iOS客户端技术文档 | Type Theme</title>
+	<meta name="description" content="一、前言">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<hr />
+	<!-- CSS -->
+	<link rel="stylesheet" href="/css/main.css">
 
-<h3 id="一前言">一、前言</h3>
+	<!--Favicon-->
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+	<!-- Canonical -->
+	<link rel="canonical" href="http://localhost:4000/2017/09/03/%E6%B4%8B%E8%91%B1%E5%80%9F%E6%9D%A1iOS%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3.html">
+
+	<!-- RSS -->
+	<link rel="alternate" type="application/atom+xml" title="Type Theme" href="http://localhost:4000/feed.xml" />
+
+	<!-- Font Awesome -->
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+	<!-- Google Fonts -->
+	
+	<link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,700italic,400italic" rel="stylesheet" type="text/css">
+	
+
+	<!-- KaTeX -->
+	
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css">
+	<script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js"></script>
+	
+
+	<!-- Google Analytics -->
+	
+</head>
+
+  <body>
+    <header class="site-header">
+	<div class="branding">
+		
+		<a href="/">
+			<img class="avatar" src="/img/avatar.png" alt=""/>
+		</a>
+		
+		<h1 class="site-title">
+			<a href="/">Type Theme</a>
+		</h1>
+	</div>
+	<nav class="site-nav">
+		<ul>
+			
+			
+			
+			
+			<li>
+				<a class="page-link" href="/about/">
+					About
+				</a>
+			</li>
+			
+			
+			
+			
+			
+			
+			
+			
+			<!-- Social icons from Font Awesome, if enabled -->
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://github.com/rohanchandra/type-theme" title="Follow on GitHub">
+		<i class="fa fa-fw fa-github"></i>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://twitter.com/twitter" title="Follow on Twitter">
+		<i class="fa fa-fw fa-twitter"></i>
+	</a>
+</li>
+
+
+
+
+
+
+		</ul>
+	</nav>
+</header>
+
+    <div class="content">
+      <article >
+  <header style="background-image: url('/')">
+    <h1 class="title">洋葱借条iOS客户端技术文档</h1>
+    <p class="meta">
+    September 3, 2017
+    
+    </p>
+  </header>
+  <section class="post-content"><h3 id="一前言">一、前言</h3>
+
 <p>####1.1、编写目的</p>
 <ul>
   <li>目的在于明确说明洋葱借条功能的实现方式，规范化软件的生产，给软件的设计，编码，测试，维护等提供依据，指导开发人员进行编码。 </li>
@@ -36,7 +166,7 @@ date: 2017-09-03 11:11:11.000000000 +09:00</p>
 <p>​	洋葱借条做为一个金融类APP，项目整体采用MVC的设计模式，文件结构清晰，逻辑控制层和数据模型层分离，使得代码逻辑清晰，注释规范。通过Base类的封装，组件化，工具类和公共方法的抽象，公共视图类的封装，系统类扩展等手段，增加重复代码的有效利用和简化代码调用方式以及简明的文件目录结构。</p>
 
 <h4 id="22工程目录简介">2.2、工程目录简介</h4>
-<p><img src="/Users/zhongjunchi/Desktop/洋葱借条iOS-技术文档/目录结构.png" alt="目录结构" /></p>
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79gy1fj6at9a0vcj305e068weh.jpg" alt="目录结构" /></p>
 <ul>
   <li>AppDelegate :  只有AppDelegate类，程序生命周期管理类</li>
   <li>General : 通用组件及分类放置，不涉及具体业务</li>
@@ -137,7 +267,7 @@ date: 2017-09-03 11:11:11.000000000 +09:00</p>
 
 <p>​	抛开业务谈其他都是扯淡，所以我们先假设有如下需求：</p>
 
-<p><img src="/Users/zhongjunchi/Desktop/洋葱借条iOS-技术文档/Form表单示例.png" alt="Form表单示例" /></p>
+<p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1fj6atc4lqtj30ac0hg0t5.jpg" alt="Form表单示例" /></p>
 
 <p>​	页面并不复杂，实现起来却很糟心，各种判断还是各种cell？如果需求变了，样式也跟着变了呢？</p>
 
@@ -173,7 +303,7 @@ date: 2017-09-03 11:11:11.000000000 +09:00</p>
 
 <p>Controller层只需负责数据的获取与刷新，页面渲染交由<strong>TableContainerView</strong>完成。</p>
 
-<p><img src="/Users/zhongjunchi/Desktop/洋葱借条iOS-技术文档/form表单png.png" alt="form表单png" /></p>
+<p><img src="https://ws4.sinaimg.cn/large/006tNc79gy1fj6atb7sahj30i00b3aaq.jpg" alt="form表单png" /></p>
 
 <p>这样，最上层(Controller)的业务代码非常清爽，灵活性极高，当页面改变时，只需要修改变化cell或者新增一种Type的cell，提升了开发效率，而不用为写一坨if/else代码而苦恼，具体实现细节可查看源码。</p>
 
@@ -206,7 +336,7 @@ date: 2017-09-03 11:11:11.000000000 +09:00</p>
   ◦	Reachability 网络监测使用；
   ◦	YTPod  云兔公司私有库 。
 ####2.5、App启动流程
-<img src="/Users/zhongjunchi/Desktop/洋葱借条iOS-技术文档/启动流程.jpg" alt="启动流程" /></p>
+<img src="https://ws3.sinaimg.cn/large/006tNc79gy1fj6at9qke2j30j60asmy6.jpg" alt="启动流程" /></p>
   </li>
 </ul>
 
@@ -221,7 +351,7 @@ date: 2017-09-03 11:11:11.000000000 +09:00</p>
 </ul>
 
 <p>###三、功能详解
-<img src="/Users/zhongjunchi/Desktop/洋葱借条iOS-技术文档/洋葱借条xmindpng.png" alt="洋葱借条xmindpng" /></p>
+<img src="https://ws4.sinaimg.cn/large/006tNc79gy1fj6atat1edj30r50hngng.jpg" alt="洋葱借条xmindpng" /></p>
 
 <p>​	该思维导图对整个项目做了一个功能点解剖，清晰明了，逻辑流程比较复杂的会有流程图加强理解。</p>
 
@@ -230,7 +360,7 @@ date: 2017-09-03 11:11:11.000000000 +09:00</p>
 ####3.2、借款（Borrow）
 ​	借款流程在v1.2.0版本中做出调整，现在整体逻辑为可无对象发布借款，可分享给洋葱借条/第三方好友（出借人），具体流程图如下：</p>
 
-<p>​	<img src="/Users/zhongjunchi/Desktop/洋葱借条iOS-技术文档/借款流程图.png" alt="借款流程图" /></p>
+<p>​	<img src="https://ws1.sinaimg.cn/large/006tNc79gy1fj6atbr4m5j30ye14an0e.jpg" alt="借款流程图" /></p>
 
 <p>​	无对象发布的借款订单，须在支付时进行订单锁定（服务端两分钟锁定逻辑），客户端须有解锁订单逻辑，解锁时间节点：</p>
 
@@ -286,7 +416,7 @@ date: 2017-09-03 11:11:11.000000000 +09:00</p>
     <p>运营商认证
  运营商认证是一个爬虫处理的过程，在此期间会不断轮询后台处理结果，会有需要输入验证码的情况，耗时较长，流程图如下：</p>
 
-    <p><img src="/Users/zhongjunchi/Desktop/洋葱借条iOS-技术文档/运营商认证png.png" alt="运营商认证png" /></p>
+    <p><img src="https://ws3.sinaimg.cn/large/006tNc79gy1fj6atad2w7j30m80g03zi.jpg" alt="运营商认证png" /></p>
   </li>
   <li>
     <p>芝麻认证
@@ -391,3 +521,28 @@ if (self.mapView.zoomLevel == 21)
 </ul>
 
 <p>​	待补充</p>
+</section>
+</article>
+
+<!-- Post navigation -->
+
+
+<!-- Disqus -->
+
+
+<!-- Muut -->
+
+    </div>
+    
+<script src="/js/katex_init.js"></script>
+
+
+
+<footer class="site-footer">
+	<p class="text">Powered by <a href="https://jekyllrb.com/">Jekyll</a> with <a href="https://rohanchandra.github.io/project/type/">Type Theme</a>
+</p>
+</footer>
+
+
+  </body>
+</html>

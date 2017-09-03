@@ -5,19 +5,14 @@
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
     <link>http://localhost:4000/</link>
     <description>A website with blog posts and pages</description>
-    <pubDate>Sun, 03 Sep 2017 12:47:34 +0800</pubDate>
+    <pubDate>Sun, 03 Sep 2017 13:15:33 +0800</pubDate>
     
       <item>
-        <title>洋葱借条ios客户端技术文档</title>
+        <title>洋葱借条iOS客户端技术文档</title>
         <link>http://localhost:4000/2017/09/03/%E6%B4%8B%E8%91%B1%E5%80%9F%E6%9D%A1iOS%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3.html</link>
         <guid isPermaLink="true">http://localhost:4000/2017/09/03/%E6%B4%8B%E8%91%B1%E5%80%9F%E6%9D%A1iOS%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3.html</guid>
-        <description>&lt;p&gt;layout: post
-title: 洋葱借条iOS客户端技术文档说明
-date: 2017-09-03 11:11:11.000000000 +09:00&lt;/p&gt;
+        <description>&lt;h3 id=&quot;一前言&quot;&gt;一、前言&lt;/h3&gt;
 
-&lt;hr /&gt;
-
-&lt;h3 id=&quot;一前言&quot;&gt;一、前言&lt;/h3&gt;
 &lt;p&gt;####1.1、编写目的&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;目的在于明确说明洋葱借条功能的实现方式，规范化软件的生产，给软件的设计，编码，测试，维护等提供依据，指导开发人员进行编码。 &lt;/li&gt;
@@ -49,7 +44,7 @@ date: 2017-09-03 11:11:11.000000000 +09:00&lt;/p&gt;
 &lt;p&gt;​	洋葱借条做为一个金融类APP，项目整体采用MVC的设计模式，文件结构清晰，逻辑控制层和数据模型层分离，使得代码逻辑清晰，注释规范。通过Base类的封装，组件化，工具类和公共方法的抽象，公共视图类的封装，系统类扩展等手段，增加重复代码的有效利用和简化代码调用方式以及简明的文件目录结构。&lt;/p&gt;
 
 &lt;h4 id=&quot;22工程目录简介&quot;&gt;2.2、工程目录简介&lt;/h4&gt;
-&lt;p&gt;&lt;img src=&quot;/Users/zhongjunchi/Desktop/洋葱借条iOS-技术文档/目录结构.png&quot; alt=&quot;目录结构&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://ws1.sinaimg.cn/large/006tNc79gy1fj6at9a0vcj305e068weh.jpg&quot; alt=&quot;目录结构&quot; /&gt;&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;AppDelegate :  只有AppDelegate类，程序生命周期管理类&lt;/li&gt;
   &lt;li&gt;General : 通用组件及分类放置，不涉及具体业务&lt;/li&gt;
@@ -150,7 +145,7 @@ date: 2017-09-03 11:11:11.000000000 +09:00&lt;/p&gt;
 
 &lt;p&gt;​	抛开业务谈其他都是扯淡，所以我们先假设有如下需求：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/Users/zhongjunchi/Desktop/洋葱借条iOS-技术文档/Form表单示例.png&quot; alt=&quot;Form表单示例&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://ws2.sinaimg.cn/large/006tNc79gy1fj6atc4lqtj30ac0hg0t5.jpg&quot; alt=&quot;Form表单示例&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;​	页面并不复杂，实现起来却很糟心，各种判断还是各种cell？如果需求变了，样式也跟着变了呢？&lt;/p&gt;
 
@@ -186,7 +181,7 @@ date: 2017-09-03 11:11:11.000000000 +09:00&lt;/p&gt;
 
 &lt;p&gt;Controller层只需负责数据的获取与刷新，页面渲染交由&lt;strong&gt;TableContainerView&lt;/strong&gt;完成。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/Users/zhongjunchi/Desktop/洋葱借条iOS-技术文档/form表单png.png&quot; alt=&quot;form表单png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://ws4.sinaimg.cn/large/006tNc79gy1fj6atb7sahj30i00b3aaq.jpg&quot; alt=&quot;form表单png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;这样，最上层(Controller)的业务代码非常清爽，灵活性极高，当页面改变时，只需要修改变化cell或者新增一种Type的cell，提升了开发效率，而不用为写一坨if/else代码而苦恼，具体实现细节可查看源码。&lt;/p&gt;
 
@@ -219,7 +214,7 @@ date: 2017-09-03 11:11:11.000000000 +09:00&lt;/p&gt;
   ◦	Reachability 网络监测使用；
   ◦	YTPod  云兔公司私有库 。
 ####2.5、App启动流程
-&lt;img src=&quot;/Users/zhongjunchi/Desktop/洋葱借条iOS-技术文档/启动流程.jpg&quot; alt=&quot;启动流程&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;https://ws3.sinaimg.cn/large/006tNc79gy1fj6at9qke2j30j60asmy6.jpg&quot; alt=&quot;启动流程&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
 
@@ -234,7 +229,7 @@ date: 2017-09-03 11:11:11.000000000 +09:00&lt;/p&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;###三、功能详解
-&lt;img src=&quot;/Users/zhongjunchi/Desktop/洋葱借条iOS-技术文档/洋葱借条xmindpng.png&quot; alt=&quot;洋葱借条xmindpng&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;https://ws4.sinaimg.cn/large/006tNc79gy1fj6atat1edj30r50hngng.jpg&quot; alt=&quot;洋葱借条xmindpng&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;​	该思维导图对整个项目做了一个功能点解剖，清晰明了，逻辑流程比较复杂的会有流程图加强理解。&lt;/p&gt;
 
@@ -243,7 +238,7 @@ date: 2017-09-03 11:11:11.000000000 +09:00&lt;/p&gt;
 ####3.2、借款（Borrow）
 ​	借款流程在v1.2.0版本中做出调整，现在整体逻辑为可无对象发布借款，可分享给洋葱借条/第三方好友（出借人），具体流程图如下：&lt;/p&gt;
 
-&lt;p&gt;​	&lt;img src=&quot;/Users/zhongjunchi/Desktop/洋葱借条iOS-技术文档/借款流程图.png&quot; alt=&quot;借款流程图&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;​	&lt;img src=&quot;https://ws1.sinaimg.cn/large/006tNc79gy1fj6atbr4m5j30ye14an0e.jpg&quot; alt=&quot;借款流程图&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;​	无对象发布的借款订单，须在支付时进行订单锁定（服务端两分钟锁定逻辑），客户端须有解锁订单逻辑，解锁时间节点：&lt;/p&gt;
 
@@ -299,7 +294,7 @@ date: 2017-09-03 11:11:11.000000000 +09:00&lt;/p&gt;
     &lt;p&gt;运营商认证
  运营商认证是一个爬虫处理的过程，在此期间会不断轮询后台处理结果，会有需要输入验证码的情况，耗时较长，流程图如下：&lt;/p&gt;
 
-    &lt;p&gt;&lt;img src=&quot;/Users/zhongjunchi/Desktop/洋葱借条iOS-技术文档/运营商认证png.png&quot; alt=&quot;运营商认证png&quot; /&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;img src=&quot;https://ws3.sinaimg.cn/large/006tNc79gy1fj6atad2w7j30m80g03zi.jpg&quot; alt=&quot;运营商认证png&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;芝麻认证
