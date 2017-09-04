@@ -67,9 +67,12 @@ paginate: 5
 paginate_path: "blog/page:num"
 
 # BUILD SETTINGS
-markdown: kramdown
-highlighter: rouge
-sass:
+highlighter: pygments
+markdown: kramdown  # [ maruku | rdiscount | kramdown | redcarpet ]
+kramdown:
+  input:         GFM
+  auto_ids:      true
+  auto_id_prefix:'id-'sass:
   sass_dir: _sass
   style: :compressed
 gems: [jekyll-paginate]
