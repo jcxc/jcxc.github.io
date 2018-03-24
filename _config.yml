@@ -68,11 +68,14 @@ paginate_path: "blog/page:num"
 
 # BUILD SETTINGS
 highlighter: rouge
-markdown: kramdown 
-kramdown:
-  input:         GFM
-  auto_ids:      true
-  auto_id_prefix:'id-'sass:
-  sass_dir: _sass
-  style: :compressed
+markdown: maruku 
+markdown_ext:  markdown,mkd,mkdn,md
+maruku:
+  use_tex:    false
+  use_divs:   false
+  png_engine: blahtex
+  png_dir:    images/latex
+  png_url:    /images/latex
+  fenced_code_blocks: true
+
 gems: [jekyll-paginate]
